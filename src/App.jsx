@@ -1,5 +1,4 @@
-// src/App.jsx
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import GoalCard from "./components/GoalCard";
 import GoalForm from "./components/GoalForm";
 import Overview from "./components/Overview";
@@ -7,53 +6,52 @@ import Overview from "./components/Overview";
 function App() {
   const [goals, setGoals] = useState([]);
 
+  // Fetch goals on component mount
   useEffect(() => {
-    fetch("http://localhost:3001/goals")
-      .then((res) => res.json())
-      .then(setGoals)
-      .catch((err) => console.error("Failed to fetch goals:", err));
+    fetchGoals();
   }, []);
 
-  function handleAddGoal(newGoal) {
+  const fetchGoals = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/goals");
+      if (response.ok) {
+        const data = await response.json();
+        setGoals(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch goals:", error);
+    }
+  };
+
+  const addGoal = (newGoal) => {
     setGoals([...goals, newGoal]);
-  }
+  };
 
-  function handleUpdateGoal(updatedGoal) {
-    setGoals((prevGoals) =>
-      prevGoals.map((goal) =>
-        goal.id === updatedGoal.id ? updatedGoal : goal
-      )
-    );
-  }
+  const updateGoal = (updatedGoal) => {
+    setGoals(goals.map(goal => 
+      goal.id === updatedGoal.id ? updatedGoal : goal
+    ));
+  };
 
-  function handleDeleteGoal(id) {
-    fetch(`http://localhost:3001/goals/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to delete goal");
-        }
-        setGoals((prevGoals) => prevGoals.filter((goal) => goal.id !== id));
-      })
-      .catch((err) => console.error("Error deleting goal:", err));
-  }
+  const deleteGoal = (goalId) => {
+    setGoals(goals.filter(goal => goal.id !== goalId));
+  };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Goal Planner</h1>
+    <div style={{ padding: "20px", backgroundColor: "white", minHeight: "100vh" }}>
+      <h1 style={{ color: "black", textAlign: "center" }}>Smart Goal Planner</h1>
       <Overview goals={goals} />
-      <GoalForm onAddGoal={handleAddGoal} />
+      <GoalForm onAddGoal={addGoal} />
       <div>
         {goals.length === 0 ? (
-          <p>No goals yet. Add one!</p>
+          <p style={{ textAlign: "center", color: "gray" }}>No goals yet. Add your first goal above!</p>
         ) : (
           goals.map((goal) => (
-            <GoalCard
-              key={goal.id}
-              goal={goal}
-              onUpdateGoal={handleUpdateGoal}
-              onDeleteGoal={handleDeleteGoal}
+            <GoalCard 
+              key={goal.id} 
+              goal={goal} 
+              onUpdateGoal={updateGoal}
+              onDeleteGoal={deleteGoal}
             />
           ))
         )}

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 function GoalForm({ onAddGoal }) {
@@ -7,12 +6,16 @@ function GoalForm({ onAddGoal }) {
   const [category, setCategory] = useState("");
   const [deadline, setDeadline] = useState("");
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    console.log("Form submitted with:", { name, targetAmount, category, deadline });
+    if (!name || !targetAmount || !category || !deadline) {
+      alert("Please fill in all fields");
+      return;
+    }
 
     const newGoal = {
+      id: Date.now().toString(), // Simple ID generation
       name,
       targetAmount: Number(targetAmount),
       savedAmount: 0,
@@ -21,68 +24,53 @@ function GoalForm({ onAddGoal }) {
       createdAt: new Date().toISOString().split("T")[0]
     };
 
-    console.log("Sending goal:", newGoal);
-
-    fetch("http://localhost:3001/goals", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newGoal),
-      mode: 'cors'
-    })
-      .then((res) => {
-        console.log("Response status:", res.status);
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Goal added:", data);
-        onAddGoal(data);
-        setName("");
-        setTargetAmount("");
-        setCategory("");
-        setDeadline("");
-      })
-      .catch((err) => {
-        console.error("Failed to add goal:", err);
-        alert("Failed to add goal: " + err.message);
-      });
-  }
+    // Add goal directly to state (no server needed)
+    onAddGoal(newGoal);
+    
+    // Clear form
+    setName("");
+    setTargetAmount("");
+    setCategory("");
+    setDeadline("");
+    
+    alert("Goal added successfully!");
+  };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
-      <h2>Create a Goal</h2>
+    <form onSubmit={handleSubmit} style={{ padding: "20px", border: "1px solid #ccc", margin: "10px 0" }}>
+      <h3>Add New Goal</h3>
       <input
         type="text"
-        value={name}
         placeholder="Goal name"
+        value={name}
         onChange={(e) => setName(e.target.value)}
         required
+        style={{ margin: "5px", padding: "8px", width: "200px" }}
       />
       <input
         type="number"
+        placeholder="Target Amount"
         value={targetAmount}
-        placeholder="Target amount"
         onChange={(e) => setTargetAmount(e.target.value)}
         required
+        style={{ margin: "5px", padding: "8px", width: "200px" }}
       />
       <input
         type="text"
-        value={category}
         placeholder="Category"
+        value={category}
         onChange={(e) => setCategory(e.target.value)}
         required
+        style={{ margin: "5px", padding: "8px", width: "200px" }}
       />
       <input
         type="date"
         value={deadline}
         onChange={(e) => setDeadline(e.target.value)}
         required
+        style={{ margin: "5px", padding: "8px", width: "200px" }}
       />
-      <button type="submit">Add Goal</button>
+      <button type="submit" style={{ margin: "5px", padding: "8px" }}>Add Goal</button>
     </form>
   );
 }
