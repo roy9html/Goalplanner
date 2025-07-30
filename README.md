@@ -2,7 +2,7 @@
 
 A comprehensive financial goal planning application built using React JS and JSON Server as a demonstration for students learning full-stack web development.
 
-By **Your Name**
+By **Nyaga Murimi**
 
 ## Description
 
@@ -42,7 +42,7 @@ This is a full-stack financial goal planning application built using React JS fo
 1. Clone this repository using:
 
    ```bash
-   git clone https://github.com/yourusername/smart-goal-planner.git
+   git clone https://github.com/yourusername/smart-goal-planner.
    ```
 
    or by downloading a ZIP file of the code.
