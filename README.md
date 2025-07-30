@@ -10,7 +10,8 @@ This is a full-stack financial goal planning application built using React JS fo
 
 ## Screenshot
 
-![Smart Goal Planner Screenshot](./public/goal-planner-screenshot.png)
+<img width="1855" height="863" alt="image" src="https://github.com/user-attachments/assets/744df8a0-cd93-4603-ac15-0fabe4b894d6" />
+
 
 ## Features
 
