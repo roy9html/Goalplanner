@@ -42,7 +42,7 @@ This is a full-stack financial goal planning application built using React JS fo
 1. Clone this repository using:
 
    ```bash
-   git clone https://github.com/yourusername/smart-goal-planner.
+   git clone https://git@github.com:roy9html/Goalplanner.
    ```
 
    or by downloading a ZIP file of the code.
