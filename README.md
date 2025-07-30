@@ -196,7 +196,7 @@ The structure aligns with SMART goal planning:
 If you have any questions, suggestions, or need assistance, please contact:
 
 - Email: nyaga.murimi@student.moringaschool.com
-- GitHub: [@yourusername](https://github.com/roy9html)
+- GitHub: [@roy9html]
 
 ## License
 
